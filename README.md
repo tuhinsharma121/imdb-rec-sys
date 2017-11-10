@@ -1,4 +1,4 @@
-# imdb_rec_sys
+# IMDB Recommendation System for Top 250 Movies
 
 This piece of work is to showcase content based (item-item) recommendation of movies. To do this first top 250 imdb movies are crawled and stored as json leveraging BeautifulSoup package. Then a cosine similarity based recommendation system is built using functionalities of pandas, numpy and scikit-learn.
 
