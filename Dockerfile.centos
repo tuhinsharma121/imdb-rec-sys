@@ -1,0 +1,36 @@
+FROM centos:7
+MAINTAINER Tuhin Sharma "tuhinsharma121@gmail.com"
+
+
+RUN yum install -y epel-release && \
+    yum install -y python34 python34-setuptools && \
+    curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py" && \
+    python3 get-pip.py && \
+    rm "get-pip.py" && \
+    yum clean all
+
+
+
+# --------------------------------------------------------------------------------------------------
+# install python packages
+# --------------------------------------------------------------------------------------------------
+COPY ./requirements.txt /
+RUN pip3 install -r /requirements.txt && rm /requirements.txt
+
+
+# --------------------------------------------------------------------------------------------------
+# copy src code and scripts into root dir /
+# the crawler.py code assumes this dir structure
+# --------------------------------------------------------------------------------------------------
+COPY ./rec_platform/deployment/app.py /app.py
+COPY ./rec_platform /rec_platform
+COPY ./rec_platform/src /src
+COPY ./util /util
+COPY ./rec_platform/src/config.py.template /rec_platform/src/config.py
+
+# --------------------------------------------------------------------------------------------------
+# add entrypoint for the container
+# --------------------------------------------------------------------------------------------------
+ADD ./rec_platform/scripts/entrypoint.sh /bin/entrypoint.sh
+RUN chmod +x /bin/entrypoint.sh
+ENTRYPOINT ["/bin/entrypoint.sh"]

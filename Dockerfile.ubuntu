@@ -1,0 +1,32 @@
+from ubuntu:16.04
+MAINTAINER Tuhin Sharma "tuhinsharma121@gmail.com"
+
+RUN apt-get update --fix-missing && \
+    apt-get -y upgrade && \
+    apt-get install -y python3-pip
+
+
+
+# --------------------------------------------------------------------------------------------------
+# install python packages
+# --------------------------------------------------------------------------------------------------
+COPY ./requirements.txt /
+RUN pip3 install -r /requirements.txt && rm /requirements.txt
+
+
+# --------------------------------------------------------------------------------------------------
+# copy src code and scripts into root dir /
+# the crawler.py code assumes this dir structure
+# --------------------------------------------------------------------------------------------------
+COPY ./rec_platform/deployment/app.py /app.py
+COPY ./rec_platform /rec_platform
+COPY ./rec_platform/src /src
+COPY ./util /util
+COPY ./rec_platform/src/config.py.template /rec_platform/src/config.py
+
+# --------------------------------------------------------------------------------------------------
+# add entrypoint for the container
+# --------------------------------------------------------------------------------------------------
+ADD ./rec_platform/scripts/entrypoint.sh /bin/entrypoint.sh
+RUN chmod +x /bin/entrypoint.sh
+ENTRYPOINT ["/bin/entrypoint.sh"]
