@@ -1,0 +1,14 @@
+version: '2'
+services:
+  recsys:
+    image: 184213940252.dkr.ecr.us-east-1.amazonaws.com/recsys-ubuntu
+    environment:
+      SERVICE_PORT: "6006"
+      SERVICE_TIMEOUT: "900"
+      WORKER_COUNT: "5"
+      AWS_S3_ACCESS_KEY_ID : "NONE"
+      AWS_S3_SECRET_ACCESS_KEY : "NONE"
+      AWS_BUCKET_NAME : "imdb-movie-bucket"
+      MOVIE_COUNT : 20
+    ports:
+    - "80:6006"
