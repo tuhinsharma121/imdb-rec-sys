@@ -10,14 +10,14 @@ This piece of work is to showcase content based (item-item) recommendation of mo
 
 # How to run this locally?
 
-1. ```git clone https://github.com/tuhinsharma/imdb_rec_sys.git ```
-2. ```cd imdb_rec_sys ```
+1. ```git clone https://github.com/tuhinsharma/imdb-rec-sys.git ```
+2. ```cd imdb-rec-sys ```
 3. Follow ```COMMON_STEP```
 4. Use ```docker-compose```
     1. ```docker-compose -f docker-compose-recsys.yml build```
     2. ```docker-compose -f docker-compose-recsys.yml up ```
 5. For Crawling : ```curl -H 'Content-Type: application/json' -X POST -d {} http://localhost:6006/api/v1/schemas/crawl_imdb```
-6. For Training : ```curl -H 'Content-Type: application/json' -X POST -d {} http://localhost:6006/api/v1/schemas/train```
+6. For Training : ```curl -H 'Content-Type: application/json' -X POST -d {} http:imdb//localhost:6006/api/v1/schemas/train```
 7. For Recommendation : ```curl -H 'Content-Type: application/json' -X POST -d '{"movie_list": ["The Green Mile","Witness for the Prosecution"]}' http://localhost:6006/api/v1/schemas/score```
 
 
@@ -42,8 +42,8 @@ server {
 }
 ```
 10. ```sudo systemctl start nginx```
-11. ```git clone https://github.com/tuhinsharma/imdb_rec_sys.git```
-12. ```cd imdb_rec_sys```
+11. ```git clone https://github.com/tuhinsharma/imdb-rec-sys.git```
+12. ```cd imdb-rec-sys```
 13. Follow ```COMMON_STEP```
 13. ```sudo pip3 install -r requirements.txt``` 
 14. ```cp ./rec_platform/deployment/app.py ./app.py```
@@ -70,9 +70,41 @@ The output should be:-
 ```
 * In remote system do ```pkill gunicorn``` and ```sudo systemctl stop nginx```if service no longer needed.
 
-# How to deploy on an EC2 (AWS) cluster using docker-compose?
+# How to deploy on an EC2 (AWS) using docker-compose?
 
+1. Choose EC2 instance Ubuntu 16.04 LTS - Xenial (HVM)
+2. Configure security group - SSH - custom, HTTP - anywhere
+3. Launch instance using key-value pair - tuhin-aws
+4. ssh into EC2 machine - ```ssh -i "tuhin-aws.pem"``` ***```ubuntu```***```@```**```ec2-54-234-224-219.compute-1.amazonaws.com```**
+5. ```sudo apt update --fix-missing```
+6. ```sudo apt install docker.io```
+7. ```sudo apt install docker-compose```
+11. ```git clone https://github.com/tuhinsharma/imdb-rec-sys.git```
+12. ```cd imdb-rec-sys```
+13. Update the docker-compose-recsys.yml with suitable access-key and secret-key and aws bucket name. Port mapping should be "80:6006"
+8. ```sudo docker-compose -f docker-compose-recsys.yml build```
+9. ```sudo docker-compose -f docker-compose-recsys.yml up ```
 
+* In local system:-
+```curl -H 'Content-Type: application/json' -X POST -d '{"movie_list": ["The Green Mile","Witness for the Prosecution"]}' http://ec2-54-234-224-219.compute-1.amazonaws.com/api/v1/schemas/score```
+The output should be:-
+```
+{
+  "movies": [
+    "L.A. Confidential", 
+    "Salinui chueok", 
+    "Les diaboliques", 
+    "12 Angry Men", 
+    "Double Indemnity", 
+    "Chinatown", 
+    "On the Waterfront", 
+    "A Wednesday", 
+    "Se7en", 
+    "The Usual Suspects"
+  ]
+}
+```
 
+# How to deploy on an ECS using docker-compose?
 
 
