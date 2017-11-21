@@ -11,7 +11,10 @@ app = Flask(__name__)
 
 
 global imdb_recsys
-app.imdb_recsys = load_rec_model_s3()
+try:
+    app.imdb_recsys = load_rec_model_s3()
+except:
+    pass
 
 
 @app.route('/')
