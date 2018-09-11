@@ -3,7 +3,7 @@ import logging
 from flask import Flask, request
 import sys
 
-from rec_platform.src.scoring import recommend,load_rec_model_s3
+from rec_platform.src.scoring import recommend,load_rec_model_local
 from rec_platform.src.training import train_and_save_rec_model_s3,crawl_s3
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 global imdb_recsys
 try:
-    app.imdb_recsys = load_rec_model_s3()
+    app.imdb_recsys = load_rec_model_local()
 except:
     pass
 

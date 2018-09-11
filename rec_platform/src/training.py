@@ -45,8 +45,8 @@ def crawl_s3():
 
 if __name__ == '__main__':
     t0 = time()
-    crawl_local()
-    crawl_s3()
+    # crawl_local()
+    # crawl_s3()
     train_and_save_rec_model_local()
-    train_and_save_rec_model_s3()
+    # train_and_save_rec_model_s3()
     print('running time : ', time() - t0)

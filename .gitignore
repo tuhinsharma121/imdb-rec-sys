@@ -12,7 +12,6 @@ docker-compose-recsys.yml
 *.key
 *.pdf
 sample_post_calls.txt
-rec_platform/data/*
 
 .idea/*
 # Distribution / packaging
