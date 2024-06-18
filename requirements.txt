@@ -16,7 +16,7 @@ scikit-learn==0.19.1
 scipy==1.11.1
 six==1.11.0
 sklearn==0.0
-urllib3==1.26.18
+urllib3==1.26.19
 Werkzeug==2.3.8
 gunicorn==22.0.0
 gevent==23.9.0
